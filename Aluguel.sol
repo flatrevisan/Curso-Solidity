@@ -19,4 +19,7 @@ public
     locatario = _Locatario;
     valor = valorDoAluguel;
     }
+    function valorDoAluguel () public view returns (uint256) {
+        return valor;
+    }
 }
