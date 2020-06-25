@@ -13,8 +13,8 @@ contract Aluguel {
         string memory _Locatario,
         uint256 valorDoAluguel
     )
-public
-{
+    public
+    {
     locador = paramLocador;
     locatario = _Locatario;
     valor = valorDoAluguel;
