@@ -3,7 +3,6 @@ pragma solidity 0.6.10;
 
 contract SPA 
 {
-    
     string public buyer;
     string public seller;
     uint256 private purchasePrice;
@@ -24,10 +23,10 @@ contract SPA
         seller = paramSeller;
         purchasePrice = paramPrice;
         penalty = paramPenalty;
-        equity = 100 - paramEquity;
+        equity = paramEquity;
     }
     
-     function simulPenalty (uint256 numberOfDays, uint256 unpaidAmount) public view returns (uint256 penaltyAmount)
+    function simulPenalty (uint256 numberOfDays, uint256 unpaidAmount) public view returns (uint256 penaltyAmount)
     {
         if (numberOfDays <= 30)
         {
@@ -37,15 +36,8 @@ contract SPA
         penaltyAmount = penaltyAmount + (((numberOfDays/30*interestRate)*(penaltyAmount+unpaidAmount))/100);
     }
     
-    function guaranteeChoice (uint256 pledgeOfShares, uint256 escrowAccount) public view returns (uint256 guarantee)
+    function shareValue (uint256 numberOfShares) public view returns (uint256 sharePrice)
     {
-        if (equity == 0)
-        {
-            guarantee = escrowAccount; guarantee = pledgeOfShares;
-        }
-        pledgeOfShares = (equity * purchasePrice);
-        escrowAccount =  (20 * purchasePrice)/100;
-        return guarantee;
+        sharePrice = purchasePrice/numberOfShares;
     }
-    
 }
