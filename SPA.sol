@@ -15,9 +15,7 @@ contract SPA
         string memory paramSeller,
         uint256 paramPrice,
         uint256 paramPenalty,
-        uint256 paramEquity // Equity purchased by Buyer
-    )
-    public
+        uint256 paramEquity // Equity purchased by Buyer)public
     {
         buyer = paramBuyer;
         seller = paramSeller;
