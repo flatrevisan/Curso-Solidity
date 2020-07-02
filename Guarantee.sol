@@ -1,13 +1,19 @@
     
-     function guaranteeChoice (uint256 pledgeOfShares, uint256 escrowAccount) public view returns (uint256 guarantee)
+    function guaranteeChoice () public view returns (string memory)
     {
-        if (equity == 0)
-        {
-            guarantee = escrowAccount; guarantee = pledgeOfShares;
+        if (equity == 100){
+            return "Escrow Account";} 
+        else {
+            return "Pledge of Shares";
         }
-        pledgeOfShares = (equity * purchasePrice);
-        escrowAccount =  (20 * purchasePrice)/100;
-        return guarantee;
     }
     
-}
+    function guaranteeValue () public view returns (uint256 guarantee)
+    {    
+        if (guaranteeChoice == "Escrow Account")
+        {
+            guarantee = (20 * purchasePrice)/100;}
+        else 
+        {
+            guarantee =  (100 - equity) * shareValue;}
+    }
