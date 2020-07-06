@@ -7,14 +7,14 @@ contract StartUpInvestment
     {
         string name;
         address payable investorAccount;
-        uint offer;
-        uint numberOfSharesAcquired;
+        uint256 offer;
+        uint256 numberOfSharesAcquired;
     }
     
     address payable public companyAccount;
-    uint minimumOfferPerShare;
-    uint public sharesAvailable;
-    uint public timeLimit;
+    uint256 public minimumOfferPerShare;
+    uint256 public sharesAvailable;
+    uint256 public timeLimit;
     
     mapping (address => Investor) public investorsBids;
     Investor [] public officialInvestors;
@@ -25,10 +25,10 @@ contract StartUpInvestment
 
     constructor
         (
-        uint _timeLimit,
+        uint256 _timeLimit,
         address payable _companyAccount,
-        uint _minimumOfferPerShare,
-        uint _sharesAvailable
+        uint256 _minimumOfferPerShare,
+        uint256 _sharesAvailable
         ) public
         
         {
@@ -39,15 +39,15 @@ contract StartUpInvestment
         }
  
     
-    function investorOffer (string memory nameOfInvestor, address payable accountOfInvestor, uint sharesAcquired, uint remainingShares, uint shares) public payable
+    function investorOffer (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _sharesAcquired) public payable
     {
-        require ((msg.value/sharesAcquired) >= minimumOfferPerShare, "Offer not Accepted");
+        require ((msg.value/_sharesAcquired) >= minimumOfferPerShare, "Offer not Accepted");
         require (now <= timeLimit, "Investment Opportunity Closed");
-        require (remainingShares >= sharesAcquired);
+        require (remainingShares >= _sharesAcquired);
     
         for (uint i=0; i<=remainingShares; i++)
         {
-            shares = shares + sharesAcquired;
+            shares = shares + _sharesAcquired;
             remainingShares = sharesAvailable - shares;
             if (remainingShares = 0)
             {
