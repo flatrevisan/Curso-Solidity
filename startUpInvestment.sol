@@ -7,14 +7,14 @@ contract StartUpInvestment {
     {
         string name;
         address payable investorAccount;
-        uint256 offer;
-        uint256 numberOfSharesAcquired;
+        uint offer;
+        uint numberOfSharesAcquired;
     }
     
     address payable public companyAccount;
-    uint256 public minimumOfferPerShare;
-    uint256 public sharesAvailable;
-    uint256 public timeLimit;
+    uint public minimumOfferPerShare;
+    uint public sharesAvailable;
+    uint public timeLimit;
     
     mapping (address => Investor) investorsBids;
     
@@ -24,10 +24,10 @@ contract StartUpInvestment {
 
     constructor
         (
-        uint256 _timeLimit,
+        uint _timeLimit,
         address payable _companyAccount,
-        uint256 _minimumOfferPerShare,
-        uint256 _sharesAvailable
+        uint _minimumOfferPerShare,
+        uint _sharesAvailable
         ) public
         
         {
@@ -68,4 +68,6 @@ contract StartUpInvestment {
                     emit bidClosed ("Investment fully secured. Congratulations!");
                 }
             }
-        }   
+        }
+    }
+}   
