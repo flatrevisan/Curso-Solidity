@@ -74,9 +74,10 @@ pragma solidity 0.6.10;
         emit previousID (msg.sender, _id);
     }
     
-    modifier checkAvailability
-        {
-            require (sharesAvailable >= Investor.numberOfSharesAcquired);
-            _;
-            
-        }
+   function confirmOffer  (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _sharesAcquired, uint _id) payable public
+   {
+        require (now<= timeLimit, "Share Offer Closed");
+        require ((msg.value/_sharesAcquired) > minimumOfferPerShare, "Offer not Accepted.");
+        require (_sharesAcquired <= sharesAvailable, "Not enough Shares Available");
+        
+        sharesAvailable = sharesAvailable - _sharesAcquired;
