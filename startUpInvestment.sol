@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: GPL-3.0
+//SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.6.10;
 
-contract StartUpInvestment 
-{
+contract StartUpInvestment {
+    
     struct Investor 
     {
         string name;
@@ -16,10 +16,9 @@ contract StartUpInvestment
     uint256 public sharesAvailable;
     uint256 public timeLimit;
     
-    mapping (address => Investor) public investorsBids;
-    Investor [] public officialInvestors;
+    mapping (address => Investor) investorsBids;
     
-    event remainingSharesAvailable (uint valor);
+    event remainingSharesAvailable (uint);
     event bidClosed (string);
     
 
@@ -39,48 +38,34 @@ contract StartUpInvestment
         }
  
     
-    function investorOffer (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _sharesAcquired) public payable
+    function investorOffer (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _offerAmount, uint _sharesAcquired) public payable
     {
+        uint remainingShares = sharesAvailable;
+        
         require ((msg.value/_sharesAcquired) >= minimumOfferPerShare, "Offer not Accepted");
-        require (now <= timeLimit, "Investment Opportunity Closed");
-        require (remainingShares >= _sharesAcquired);
-    
+        require (remainingShares >= _sharesAcquired, "Investment Fully Acquired");
+        _offerAmount = msg.value;
+        
         for (uint i=0; i<=remainingShares; i++)
         {
-            shares = shares + _sharesAcquired;
-            remainingShares = sharesAvailable - shares;
-            if (remainingShares = 0)
+            if (now <= timeLimit)
             {
-                return "Investment Fully Acquired";
-            } else{
-                return "Investment Required";
-                }
-        }
-        
-        Investor storage investorAcquired = Investor (nameOfInvestor, accountOfInvestor, msg.value, sharesAcquired);
-        investorsBids.push (investorAcquired);
-        officialInvestors [investorAcquired.accountOfInvestor];
-    
-        emit remainingSharesAvailable (remainingShares);
-    }
-     
-     function endBid () payable public
-     {
-         if (now>= timeLimit)
-         {
-             if (remainingShares != 0)
-             {
-                    nameOfInvestor.accountOfInvestor.transfer(offer);
-                    nameOfInvestor.investmentRefunded = true;
+                remainingShares = remainingShares - _sharesAcquired;
+                investorsBids [_accountOfInvestor] = Investor (_nameOfInvestor, _accountOfInvestor, _offerAmount, _sharesAcquired);
+                
+                emit remainingSharesAvailable (remainingShares);
+            
+                
+            } else {
+                if (remainingShares != 0)
+                {
+                _accountOfInvestor.transfer(_offerAmount);
                     
-                    emit bidClosed ("Investment failed. Thanks for the attempt!");
-             }
-         } else 
-            {
-             companyAccount.transfer(address(this).balance);
+                emit bidClosed ("Investment failed. Thanks for the attempt!");
+                } else {
+                    companyAccount.transfer(address(this).balance);
              
-             emit bidClosed ("Investment fully secured. Congratulations!");
+                    emit bidClosed ("Investment fully secured. Congratulations!");
+                }
             }
-        
-     }
-}   
+        }   
