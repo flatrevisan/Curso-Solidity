@@ -29,3 +29,54 @@ pragma solidity 0.6.10;
         }
     }
 }
+
+
+//SPDX-License-Identifier: GPL-3.0
+pragma solidity 0.6.10;
+
+    contract StartUpInvestment {
+    
+    struct Investor 
+    {
+        string name;
+        address payable investorAccount;
+        uint offer;
+        uint numberOfSharesAcquired;
+        uint id;
+    }
+    
+    address payable public companyAccount;
+    uint public minimumOfferPerShare;
+    uint public sharesAvailable;
+    uint public timeLimit;
+    
+    constructor
+    (
+        address payable _companyAccount,
+        uint _minimumOfferPerShare,
+        uint _sharesAvailable,
+        uint _timeLimit
+    ) public
+    
+    {
+        companyAccount = _companyAccount;
+        minimumOfferPerShare = _minimumOfferPerShare;
+        sharesAvailable = _sharesAvailable;
+        timeLimit = now + _timeLimit;
+    }
+    
+    event previousID (address, uint);
+    
+    mapping (uint => Investor) public investorsBids;
+    function storeInvestor (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _sharesAcquired, uint _id) payable public
+    {  
+        investorsBids [_id] = Investor (_nameOfInvestor, _accountOfInvestor, msg.value, _sharesAcquired, _id);
+        emit previousID (msg.sender, _id);
+    }
+    
+    modifier checkAvailability
+        {
+            require (sharesAvailable >= Investor.numberOfSharesAcquired);
+            _;
+            
+        }
