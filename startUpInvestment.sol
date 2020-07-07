@@ -26,7 +26,6 @@ contract StartUpInvestment {
         (
         uint _timeLimit,
         address payable _companyAccount,
-        uint _minimumOfferPerShare,
         uint _sharesAvailable
         ) public
         
@@ -34,24 +33,23 @@ contract StartUpInvestment {
         timeLimit = now + _timeLimit;
         companyAccount = _companyAccount;
         sharesAvailable = _sharesAvailable;
-        minimumOfferPerShare = _minimumOfferPerShare;
+        minimumOfferPerShare = 500;
         }
  
     
-    function investorOffer (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _offerAmount, uint _sharesAcquired) public payable
+    function investorOffer (string memory _nameOfInvestor, address payable _accountOfInvestor, uint _sharesAcquired) public payable
     {
         uint remainingShares = sharesAvailable;
-        
         require ((msg.value/_sharesAcquired) >= minimumOfferPerShare, "Offer not Accepted");
         require (remainingShares >= _sharesAcquired, "Investment Fully Acquired");
-        _offerAmount = msg.value;
+
         
         for (uint i=0; i<=remainingShares; i++)
         {
             if (now <= timeLimit)
             {
                 remainingShares = remainingShares - _sharesAcquired;
-                investorsBids [_accountOfInvestor] = Investor (_nameOfInvestor, _accountOfInvestor, _offerAmount, _sharesAcquired);
+                investorsBids [_accountOfInvestor] = Investor (_nameOfInvestor, _accountOfInvestor, msg.value, _sharesAcquired);
                 
                 emit remainingSharesAvailable (remainingShares);
             
@@ -59,7 +57,7 @@ contract StartUpInvestment {
             } else {
                 if (remainingShares != 0)
                 {
-                _accountOfInvestor.transfer(_offerAmount);
+                _accountOfInvestor.transfer(msg.value);
                     
                 emit bidClosed ("Investment failed. Thanks for the attempt!");
                 } else {
@@ -70,4 +68,4 @@ contract StartUpInvestment {
             }
         }
     }
-}   
+}
