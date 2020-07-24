@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plebiscito</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>
+        Plebiscito
+      </h1>
+      <div>
+        <button id="btnConectaMetamask" onclick="conectaAoMetamask()">Para participar conecte-se ao 🦊 Metamask</button>
+      </div>
+      <h2 id="tituloPlebiscito" style="display: none;">
+        A materia deste Plebiscito é: &nbsp; <span id="materiaDeVotacao"></span>
+      </h2>
+    </header>
+    <section id="informacoes" style="display: none;">
+      <div>
+        <mark>Previa da votação</mark>
+      </div>
+      <br>
+      <div>
+        <div>
+          <div><span id="descricaoOpcao1"></span> recebeu <strong id="exibicaoVotosOpcao1"></strong> votos.</div>
+        </div>
+        <div>
+          <div><span id="descricaoOpcao2"></span> recebeu <strong id="exibicaoVotosOpcao2"></strong> votos.</div>
+        </div>
+      </div>
+      <br>
+      <div>
+        <button onclick="buscarDadosDoContratoInteligente()"> 🔄 Busca informações atualizadas sobre a votação</button>
+      </div>
+    </section>
+    <section id="votacao" style="display: none;">
+      <div>
+        <h2>Vote na opção desejada</h2>
+      </div>
+      <div>
+        <button id="btnOpcao1" onclick="enviaVoto(1)" disabled>XXXX</button>
+        &nbsp;&nbsp;
+        <button id="btnOpcao2" onclick="enviaVoto(2)" disabled>XXXX</button>
+      </div>
+    </section>
+
+    <section id="statusTransacoes" style="display: none;">
+      <div>
+        <em id="descricaoStatusTransacoes">Status temporario</em>        
+      </div>
+    </section>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.js" 
+    integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+  <!-- Importacao da biblioteca Ethers.js para nos auxiliar na comunicacao com o Ethereum -->
+  <script src="https://cdn.ethers.io/lib/ethers-5.0.umd.min.js" type="text/javascript"></script>
+  <script src="dados-contratos-inteligentes.js"></script>
+  <script src="blockchain-infra.js"></script>
+</body>
+</html>
